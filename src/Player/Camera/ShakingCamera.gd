@@ -22,7 +22,7 @@ var state = States.IDLE
 
 
 func reset_smoothing_speed() -> void:
-	    smoothing_speed = default_smoothing_speed.mouse
+		smoothing_speed = default_smoothing_speed.mouse
 
 
 func _ready() -> void:

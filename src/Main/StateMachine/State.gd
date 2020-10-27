@@ -3,7 +3,7 @@ class_name State, "res://assets/icons/state.svg"
 
 
 
-onready var _state_machine: StateMachine = _get_state_machine(self)
+onready var _state_machine: = _get_state_machine(self)
 
 
 func unhandled_input(event: InputEvent) -> void:

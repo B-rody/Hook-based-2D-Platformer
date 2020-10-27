@@ -1,26 +1,53 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/Main/StateMachine/StateMachine.gd" type="Script" id=1]
-[ext_resource path="res://src/Main/StateMachine/State.gd" type="Script" id=2]
+[ext_resource path="res://src/Player/States/Move.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/robi.png" type="Texture" id=3]
+[ext_resource path="res://src/Player/States/Idle.gd" type="Script" id=4]
+[ext_resource path="res://src/Player/States/Air.gd" type="Script" id=5]
+[ext_resource path="res://src/Player/States/Run.gd" type="Script" id=6]
+[ext_resource path="res://src/Player/Player.gd" type="Script" id=7]
+[ext_resource path="res://src/Player/Camera/CameraRig.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/Player/Hook/Hook.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Player/States/Hook.gd" type="Script" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 16 )
+extents = Vector2( 24, 24 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( -8, 8 )
+collision_mask = 10
+script = ExtResource( 7 )
+
+[node name="Hook" parent="." instance=ExtResource( 9 )]
+position = Vector2( 0, -63 )
+
+[node name="CameraRig" parent="." instance=ExtResource( 8 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 8, -24 )
+position = Vector2( 8, -32 )
 shape = SubResource( 1 )
 
 [node name="Robi" type="Sprite" parent="."]
-position = Vector2( 4.45954, -44.3754 )
-scale = Vector2( 0.252752, 0.252752 )
+position = Vector2( 6, -66.7765 )
+scale = Vector2( 0.421094, 0.421094 )
 texture = ExtResource( 3 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 1 )
+initial_state = NodePath("Move/Idle")
 
-[node name="State" type="Node" parent="StateMachine"]
+[node name="Move" type="Node" parent="StateMachine"]
 script = ExtResource( 2 )
+
+[node name="Idle" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 4 )
+
+[node name="Run" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 6 )
+
+[node name="Air" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 5 )
+
+[node name="Hook" type="Node" parent="StateMachine"]
+script = ExtResource( 10 )
