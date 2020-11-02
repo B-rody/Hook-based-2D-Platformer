@@ -1,6 +1,6 @@
 extends State
 
-
+onready var jump_delay: Timer = $JumpDelay
 onready var move: = get_parent()
 
 
@@ -21,6 +21,12 @@ func enter(msg: Dictionary = {}) -> void:
 	move.enter(msg)
 	move.max_speed = move.max_speed_default
 	move.velocity = Vector2.ZERO
+	
+	if not jump_delay.is_stopped():
+		_state_machine.transition_to("Move/Air", { impulse = true })
+		jump_delay.stop()
+		return
+		
 
 func exit() -> void:
 	move.exit()

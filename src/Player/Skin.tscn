@@ -161,9 +161,6 @@ tracks/2/keys = {
 }
 
 [node name="Skin" type="Node2D"]
-modulate = Color( 1, 0, 0, 1 )
-position = Vector2( 1, 1 )
-scale = Vector2( 1e-05, 1e-05 )
 script = ExtResource( 3 )
 __meta__ = {
 "_editor_description_": ""

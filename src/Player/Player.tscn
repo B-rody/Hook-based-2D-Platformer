@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/Main/StateMachine/StateMachine.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/States/Move.gd" type="Script" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://src/Player/States/Hook.gd" type="Script" id=10]
 [ext_resource path="res://src/Player/States/Spawn.gd" type="Script" id=11]
 [ext_resource path="res://src/Player/States/Die.gd" type="Script" id=12]
+[ext_resource path="res://src/Player/States/Dash.gd" type="Script" id=13]
+[ext_resource path="res://src/Player/States/Debug.gd" type="Script" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 24 )
@@ -48,11 +50,29 @@ script = ExtResource( 2 )
 [node name="Idle" type="Node" parent="StateMachine/Move"]
 script = ExtResource( 4 )
 
+[node name="JumpDelay" type="Timer" parent="StateMachine/Move/Idle"]
+wait_time = 0.2
+one_shot = true
+
 [node name="Run" type="Node" parent="StateMachine/Move"]
 script = ExtResource( 6 )
 
 [node name="Air" type="Node" parent="StateMachine/Move"]
 script = ExtResource( 5 )
 
+[node name="JumpDelay" type="Timer" parent="StateMachine/Move/Air"]
+wait_time = 0.3
+one_shot = true
+
+[node name="Dash" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 13 )
+
+[node name="Timer" type="Timer" parent="StateMachine/Move/Dash"]
+wait_time = 0.099
+one_shot = true
+
 [node name="Hook" type="Node" parent="StateMachine"]
 script = ExtResource( 10 )
+
+[node name="Debug" type="Node" parent="StateMachine"]
+script = ExtResource( 14 )

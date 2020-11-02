@@ -14,19 +14,22 @@ var acceleration: = acceleration_default
 var decceleration: = decceleration_default
 var max_speed: = max_speed_default
 var velocity: = Vector2.ZERO
+var dash_count: int = 0
 
-
-func on_Hook_hooked_onto_target(target_global_position: Vector2) -> void:
+func on_Hook_hooked_onto_target(target_global_position: Vector2, velocity_multiplier: float) -> void:
 	var to_target: Vector2 = target_global_position - owner.global_position
 	if owner.is_on_floor() and to_target.y > 0.0:
 		return
-	_state_machine.transition_to("Hook", {target_global_position = target_global_position, velocity = velocity})
+	_state_machine.transition_to("Hook", {target_global_position = target_global_position, velocity = velocity, velocity_multiplier = velocity_multiplier })
 	
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func unhandled_input(event: InputEvent) -> void:
 	if owner.is_on_floor() and event.is_action_pressed("jump"):
 		_state_machine.transition_to("Move/Air", { impulse = true })
+	if event.is_action_pressed("toggle_debug_mode"):
+		_state_machine.transition_to("Debug")
+		
 
 
 func physics_process(delta: float) -> void:
@@ -37,10 +40,12 @@ func physics_process(delta: float) -> void:
 	
 	
 func enter(msg: Dictionary = {}) -> void:
+	$Air.connect("jumped", $Idle.jump_delay, "start")
 	owner.hook.connect("hooked_onto_target", self, "on_Hook_hooked_onto_target")
 
 
 func exit() -> void:
+	$Air.disconnect("jumped", $Idle.jump_delay, "start")
 	owner.hook.disconnect("hooked_onto_target", self, "on_Hook_hooked_onto_target")
 
 

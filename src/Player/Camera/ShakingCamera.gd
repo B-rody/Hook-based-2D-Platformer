@@ -22,12 +22,17 @@ var state = States.IDLE
 
 
 func reset_smoothing_speed() -> void:
-		smoothing_speed = default_smoothing_speed.mouse
+	match Settings.controls:
+		Settings.GAMEPAD:
+			smoothing_speed = default_smoothing_speed.gamepad
+		Settings.KBD_MOUSE, _:
+			smoothing_speed = default_smoothing_speed.mouse
 
 
 func _ready() -> void:
+	Settings.connect("controls_changed", self, "reset_smoothing_speed")
 	timer.connect('timeout', self, '_on_ShakeTimer_timeout')
-
+	
 	self.duration = duration
 	reset_smoothing_speed()
 	set_process(false)
