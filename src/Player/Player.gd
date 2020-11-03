@@ -8,6 +8,8 @@ onready var collider: CollisionShape2D = $CollisionShape2D
 const FLOOR_NORMAL: = Vector2.UP
 var is_active = true setget set_is_active
 onready var hook: Hook = $Hook
+onready var ledge_wall_detector: LedgeWallDetector = $LedgeWallDetector
+onready var floor_detector: FloorDetector = $FloorDetector
 
 
 func set_is_active(value: bool) -> void:

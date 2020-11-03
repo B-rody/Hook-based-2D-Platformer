@@ -111,8 +111,11 @@ shape = SubResource( 1 )
 [node name="Player" parent="." instance=ExtResource( 7 )]
 position = Vector2( 428, 765 )
 
+[node name="TargetCirlce" parent="Player/Hook" index="2"]
+color = Color( 1, 0, 0.28125, 1 )
+
 [node name="HookingHint" parent="Player/Hook/SnapDetector" index="0"]
-visible = false
+radius = 12.0
 
 [editable path="Player"]
 

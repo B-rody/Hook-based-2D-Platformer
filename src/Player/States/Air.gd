@@ -30,6 +30,8 @@ func physics_process(delta: float) -> void:
 		move.dash_count = 0
 		var target_state: = "Move/Idle" if move.get_move_direction().x == 0.0 else "Move/Run"
 		_state_machine.transition_to(target_state)
+	elif owner.ledge_wall_detector.is_against_ledge():
+		_state_machine.transition_to("Ledge", {move_state=move})
 
 
 # Enter the state. Passes data when switching from one state to another

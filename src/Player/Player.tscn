@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/Main/StateMachine/StateMachine.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/States/Move.gd" type="Script" id=2]
@@ -14,6 +14,9 @@
 [ext_resource path="res://src/Player/States/Die.gd" type="Script" id=12]
 [ext_resource path="res://src/Player/States/Dash.gd" type="Script" id=13]
 [ext_resource path="res://src/Player/States/Debug.gd" type="Script" id=14]
+[ext_resource path="res://src/Player/LedgeWallDetector.tscn" type="PackedScene" id=15]
+[ext_resource path="res://src/Player/States/Ledge.gd" type="Script" id=16]
+[ext_resource path="res://src/Player/FloorDetector.tscn" type="PackedScene" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 24 )
@@ -31,6 +34,10 @@ position = Vector2( 0, -63 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8, -32 )
 shape = SubResource( 1 )
+
+[node name="FloorDetector" parent="." instance=ExtResource( 17 )]
+
+[node name="LedgeWallDetector" parent="." instance=ExtResource( 15 )]
 
 [node name="Skin" parent="." instance=ExtResource( 3 )]
 
@@ -73,6 +80,9 @@ one_shot = true
 
 [node name="Hook" type="Node" parent="StateMachine"]
 script = ExtResource( 10 )
+
+[node name="Ledge" type="Node" parent="StateMachine"]
+script = ExtResource( 16 )
 
 [node name="Debug" type="Node" parent="StateMachine"]
 script = ExtResource( 14 )
