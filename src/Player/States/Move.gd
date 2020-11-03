@@ -4,7 +4,7 @@ Parent state that abstracts and handles basic movement
 Move-related children states can delegate movement to it, or us its utility functions
 """
 
-
+const PASS_THROUGH_LAYER := 3
 export var max_speed_default: = Vector2(500.0, 900.0)
 export var acceleration_default: = Vector2(100000, 3000.0)
 export var decceleration_default: = Vector2(2000.0, 3000.0)
@@ -23,13 +23,21 @@ func on_Hook_hooked_onto_target(target_global_position: Vector2, velocity_multip
 	_state_machine.transition_to("Hook", {target_global_position = target_global_position, velocity = velocity, velocity_multiplier = velocity_multiplier })
 	
 
+func _on_PassThrough_body_exited(body) -> void:
+	owner.set_collision_mask_bit(PASS_THROUGH_LAYER, true)
+
 
 func unhandled_input(event: InputEvent) -> void:
 	if owner.is_on_floor() and event.is_action_pressed("jump"):
 		_state_machine.transition_to("Move/Air", { impulse = true })
 	if event.is_action_pressed("toggle_debug_mode"):
 		_state_machine.transition_to("Debug")
-		
+
+	if event.is_action_pressed("move_down") and owner.is_on_floor():
+		owner.set_collision_mask_bit(PASS_THROUGH_LAYER, false)
+		_state_machine.transition_to("Move/Air")
+	elif event.is_action_released("move_down") and not owner.get_collision_mask_bit(PASS_THROUGH_LAYER):
+		owner.set_collision_mask_bit(PASS_THROUGH_LAYER, true)
 
 
 func physics_process(delta: float) -> void:
@@ -41,13 +49,14 @@ func physics_process(delta: float) -> void:
 	
 func enter(msg: Dictionary = {}) -> void:
 	$Air.connect("jumped", $Idle.jump_delay, "start")
+	owner.pass_through.connect("body_exited", self, "on_PassThrough_body_exited")
 	owner.hook.connect("hooked_onto_target", self, "on_Hook_hooked_onto_target")
 
 
 func exit() -> void:
 	$Air.disconnect("jumped", $Idle.jump_delay, "start")
 	owner.hook.disconnect("hooked_onto_target", self, "on_Hook_hooked_onto_target")
-
+	owner.pass_through.disconnect("body_exited", self, "on_PassThrough_body_exited")
 
 static func calculate_velocity(
 		old_velocity: Vector2,

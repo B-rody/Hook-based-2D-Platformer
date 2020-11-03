@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://src/Main/StateMachine/StateMachine.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/States/Move.gd" type="Script" id=2]
@@ -17,6 +17,8 @@
 [ext_resource path="res://src/Player/LedgeWallDetector.tscn" type="PackedScene" id=15]
 [ext_resource path="res://src/Player/States/Ledge.gd" type="Script" id=16]
 [ext_resource path="res://src/Player/FloorDetector.tscn" type="PackedScene" id=17]
+[ext_resource path="res://src/Player/States/Wall.gd" type="Script" id=18]
+[ext_resource path="res://src/Player/PassThrough.tscn" type="PackedScene" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 24 )
@@ -38,6 +40,8 @@ shape = SubResource( 1 )
 [node name="FloorDetector" parent="." instance=ExtResource( 17 )]
 
 [node name="LedgeWallDetector" parent="." instance=ExtResource( 15 )]
+
+[node name="PassThrough" parent="." instance=ExtResource( 19 )]
 
 [node name="Skin" parent="." instance=ExtResource( 3 )]
 
@@ -71,12 +75,19 @@ script = ExtResource( 5 )
 wait_time = 0.3
 one_shot = true
 
+[node name="ControlsFreeze" type="Timer" parent="StateMachine/Move/Air"]
+wait_time = 0.15
+one_shot = true
+
 [node name="Dash" type="Node" parent="StateMachine/Move"]
 script = ExtResource( 13 )
 
 [node name="Timer" type="Timer" parent="StateMachine/Move/Dash"]
 wait_time = 0.099
 one_shot = true
+
+[node name="Wall" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 18 )
 
 [node name="Hook" type="Node" parent="StateMachine"]
 script = ExtResource( 10 )

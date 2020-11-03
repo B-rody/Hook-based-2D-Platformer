@@ -28,6 +28,7 @@ visible = false
 
 [node name="TargetCirlce" type="Node2D" parent="."]
 script = ExtResource( 8 )
+color = Color( 1, 0, 0.28125, 1 )
 
 [node name="SnapDetector" parent="." instance=ExtResource( 4 )]
 

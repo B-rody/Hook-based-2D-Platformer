@@ -114,9 +114,6 @@ position = Vector2( 428, 765 )
 [node name="TargetCirlce" parent="Player/Hook" index="2"]
 color = Color( 1, 0, 0.28125, 1 )
 
-[node name="HookingHint" parent="Player/Hook/SnapDetector" index="0"]
-radius = 12.0
-
 [editable path="Player"]
 
 [editable path="Player/Hook"]
