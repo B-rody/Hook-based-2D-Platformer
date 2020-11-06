@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/theme/gdquest.theme" type="Theme" id=1]
 [ext_resource path="res://src/UI/debug/DebugDock.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://src/Objects/HookTarget.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/Main/Game.gd" type="Script" id=8]
+[ext_resource path="res://src/Objects/Waypoints.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Objects/MovingPlatform.tscn" type="PackedScene" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 500, 50 )
@@ -24,6 +26,9 @@ margin_right = 440.0
 mouse_filter = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Column" type="VBoxContainer" parent="UI/DebugDock"]
 margin_left = 16.0
@@ -108,11 +113,16 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level1/StaticBody2D"]
 shape = SubResource( 1 )
 
+[node name="MovingPlatform" parent="Level1" instance=ExtResource( 10 )]
+
+[node name="Waypoints" parent="Level1/MovingPlatform" instance=ExtResource( 9 )]
+points = PoolVector2Array( 720, 880, 880, 880, 1040, 840, 1120, 720, 1240, 680 )
+
 [node name="Player" parent="." instance=ExtResource( 7 )]
 position = Vector2( 428, 765 )
 
-[node name="TargetCirlce" parent="Player/Hook" index="2"]
-color = Color( 1, 0, 0.28125, 1 )
+[node name="LedgeWallDetector" parent="Player" index="4"]
+is_active = true
 
 [editable path="Player"]
 

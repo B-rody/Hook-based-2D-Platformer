@@ -40,6 +40,7 @@ shape = SubResource( 1 )
 [node name="FloorDetector" parent="." instance=ExtResource( 17 )]
 
 [node name="LedgeWallDetector" parent="." instance=ExtResource( 15 )]
+is_active = true
 
 [node name="PassThrough" parent="." instance=ExtResource( 19 )]
 
